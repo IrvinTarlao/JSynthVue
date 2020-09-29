@@ -23,22 +23,20 @@ export default {
         debug() {
             console.log(this.uniqueKey.keyboard);
         },
-        keydown(letter) {
+        keydown() {
             this.pressed = true;
-            console.log("you pressed " + letter, this.pressed);
         },
-        keyup(letter) {
+        keyup() {
             this.pressed = false;
-            console.log("up " + letter, this.pressed);
         },
     },
     mounted() {
         let self = this;
         window.addEventListener("keydown", function(ev) {
-            if (ev.key === self.uniqueKey.keyboard) self.keydown(ev.key);
+            if (ev.key === self.uniqueKey.keyboard) self.keydown();
         });
         window.addEventListener("keyup", function(ev) {
-            if (ev.key === self.uniqueKey.keyboard && self.pressed) self.keyup(ev.key);
+            if (ev.key === self.uniqueKey.keyboard && self.pressed) self.keyup();
         });
     },
     computed: {
@@ -59,7 +57,7 @@ export default {
 }
 
 .whiteKeyPressed {
-    background-color: grey;
+    background-color: rgb(172, 172, 172);
     border: 2px solid grey;
     width: calc(100% / 8);
     height: 100%;
