@@ -1,7 +1,7 @@
 <template>
     <div class="frame">
         <div class="keyboard">
-            <Key v-for="keyNote in keysList" v-bind:keyNote="keyNote" />
+            <Key v-for="(uniqueKey, i) in keysList" v-bind:uniqueKey="uniqueKey" v-bind:key="i"/>
         </div>
     </div>
 </template>
