@@ -1,7 +1,30 @@
 <template>
     <div class="frame">
+        <div
+            v-if="!start"
+            @click="() => startOscs()"
+            v-bind:style="{
+                position: 'absolute',
+                width: '90%',
+                height: '50%',
+                fontSize: '3em',
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                cursor: 'pointer',
+                color: 'white',
+            }"
+        >
+            click to start
+        </div>
         <div class="keyboard">
-            <Key v-for="(uniqueKey, i) in keysList" v-bind:uniqueKey="uniqueKey" v-bind:key="i"/>
+            <div class="upperKeyboard">
+                <Key v-for="(blackKey, i) in blackKeys" v-bind:uniqueKey="blackKey" v-bind:key="i" v-bind:startOSC="start" />
+            </div>
+            <div class="lowerKeyboard">
+                <Key v-for="(whiteKey, i) in whiteKeys" v-bind:uniqueKey="whiteKey" v-bind:key="i" v-bind:startOSC="start" />
+            </div>
         </div>
     </div>
 </template>
@@ -17,8 +40,14 @@ export default {
     components: {
         Key,
     },
+    methods: {
+        startOscs() {
+            return (this.start = true);
+        },
+    },
     data() {
         return {
+            start: false,
             keysList: [
                 { note: "F", keyboard: "f", color: "white", frequency: 349.23 },
                 { note: "G", keyboard: "g", color: "white", frequency: 392 },
@@ -35,6 +64,18 @@ export default {
             ],
         };
     },
+    computed: {
+        whiteKeys: function() {
+            return this.keysList.filter(function(k) {
+                return k.color === "white";
+            });
+        },
+        blackKeys: function() {
+            return this.keysList.filter(function(k) {
+                return k.color === "black";
+            });
+        },
+    },
 };
 </script>
 
@@ -50,10 +91,28 @@ export default {
 }
 
 .keyboard {
-    width: 90%;
-    height: 50%;
+    width: 900px;
+    height: 500px;
     border: 2px solid black;
-    background-color: red;
+    padding: 5px;
+    overflow: auto;
+}
+
+.upperKeyboard {
+    width: 100%;
+    border: 2px solid red;
+    /* max-height: 25%; */
     display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.lowerKeyboard {
+    width: 100%;
+    height: 75%;
+    border: 2px solid green;
+    display: flex;
+        justify-content: space-between;
+
 }
 </style>
