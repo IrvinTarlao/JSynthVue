@@ -1,5 +1,5 @@
 <template>
-    <div :class="getClass" @click="debug()">
+    <div :class="getClass" @click="()=>this.osc.start()">
         <button>{{ pressed }}</button>
         <div class="">{{ uniqueKey.note }}</div>
         <div class="">{{ uniqueKey.frequency }}</div>
@@ -7,11 +7,28 @@
 </template>
 
 <script>
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+// const osc = audioCtx.createOscillator();
+// const gainNode = audioCtx.createGain();
+// gainNode.gain.value = 1;
+// osc.type = "square";
+// osc.frequency.value = 440;
+// osc.start();
+// console.log("la");
+
+//     console.log("ici");
+//     osc.connect(gainNode);
+//     gainNode.connect(audioCtx.destination);
+
+
 export default {
     name: "key",
     data() {
         return {
             pressed: false,
+            osc: audioCtx.createOscillator(),
+            gainNode: audioCtx.createGain(),
         };
     },
     props: {
@@ -25,18 +42,23 @@ export default {
         },
         keydown() {
             this.pressed = true;
+            this.gainNode.gain.value = 0.1;
+            this.osc.type = "sine";
+            this.osc.frequency.value = this.uniqueKey.frequency;
+            this.osc.connect(this.gainNode);
+            this.gainNode.connect(audioCtx.destination);
         },
         keyup() {
             this.pressed = false;
+            this.osc.disconnect();
         },
     },
     mounted() {
-        let self = this;
-        window.addEventListener("keydown", function(ev) {
-            if (ev.key === self.uniqueKey.keyboard) self.keydown();
+        window.addEventListener("keydown", (ev) => {
+            if (ev.key === this.uniqueKey.keyboard) this.keydown();
         });
-        window.addEventListener("keyup", function(ev) {
-            if (ev.key === self.uniqueKey.keyboard && self.pressed) self.keyup();
+        window.addEventListener("keyup", (ev) => {
+            if (ev.key === this.uniqueKey.keyboard && this.pressed) this.keyup();
         });
     },
     computed: {
