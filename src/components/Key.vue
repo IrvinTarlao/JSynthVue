@@ -43,6 +43,7 @@ export default {
             this.gainNode.gain.value = 0.1;
             this.osc.connect(this.gainNode);
             this.gainNode.connect(audioCtx.destination);
+            console.log(this.uniqueKey.note)
         },
         keyUp() {
             this.pressed = false;
@@ -73,6 +74,7 @@ export default {
     },
     mounted() {
         window.addEventListener("keydown", (ev) => {
+            if (ev.repeat) return;
             if (ev.key === this.uniqueKey.keyboard) this.keyDown();
         });
         window.addEventListener("keyup", (ev) => {
