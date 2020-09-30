@@ -1,6 +1,7 @@
 <template>
-    <div>
-        <div :class="getOuterBlackClass" v-if="uniqueKey.color === 'black'" v-bind:style="{ justifyContent: uniqueKey.align, width: uniqueKey.note === 'G#' ? '50%' : '100%' }">
+    <div :style="{ height: '100%', margin: '1px'}">
+        <!-- width: uniqueKey.note === 'G#' ? '50%' : '100%'  -->
+        <div :class="getOuterBlackClass" v-if="uniqueKey.color === 'black'" v-bind:style="{ justifyContent: uniqueKey.align, width: '100%' }">
             <div :class="getInnerBlackClass">
                 <div v-bind:style="{ width: '100%', height: '100%', borderRadius: '50%', backgroundColor: '#171419', textAlign: 'center', padding: '15px' }">{{ uniqueKey.note }}</div>
             </div>
@@ -117,7 +118,7 @@ export default {
 
 .innerWhiteKey {
     height: 80%;
-    width: 100%;
+    width: 60%;
     border-radius: 36px;
     background: #dadae4;
     box-shadow: 5px 5px 10px #85858b, -5px -3px 10px #ffffff, inset 2px 2px 5px #ffffff;
@@ -125,7 +126,7 @@ export default {
 
 .innerWhiteKeyPressed {
     height: 80%;
-    width: 100%;
+    width: 60%;
     border-radius: 36px;
     background: #cfcfd6b9;
     box-shadow: 5px 5px 10px #75757a, -5px -3px 10px #f3f3f3, inset 2px 2px 5px #f3f3f3;
@@ -146,10 +147,8 @@ export default {
 
 .outerBlackKeyPressed {
     height: 100%;
-        width: 100%;
-
     border-radius: 5px;
-    background: #cfcfd6;
+    background: #cfcfd6b9;
     box-shadow: inset 0px -5px 10px #75757a, 0px 0px 5px 0px rgba(23, 20, 25, 1);
     -webkit-box-shadow: inset 0px -5px 10px #75757a, 0px 0px 5px 0px rgba(23, 20, 25, 1);
     -moz-box-shadow: inset 0px -5px 10px #75757a, 0px 0px 5px 0px rgba(23, 20, 25, 1);
@@ -166,14 +165,16 @@ export default {
     background: #dadae4;
     box-shadow: 5px 5px 8px #85858b, -5px -5px 8px #ffffff;
     padding: 3px;
+    color: white;
 }
 
 .innerBlackKeyPressed {
     border-radius: 50%;
     height: 60px;
     width: 60px;
-    background: #cfcfd6;
+    background: #cfcfd6b9;
     box-shadow: 5px 5px 10px #75757a, -5px -3px 10px #f3f3f3, inset 2px 2px 5px #f3f3f3;
     padding: 3px;
+    color: white;
 }
 </style>

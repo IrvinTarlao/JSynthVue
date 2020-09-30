@@ -18,12 +18,30 @@
         >
             click to start
         </div>
-        <div class="keyboard">
+        <div class="keyboard">            
             <div class="upperKeyboard">
-                <Key v-for="(blackKey, i) in blackKeys" v-bind:uniqueKey="blackKey" v-bind:key="i" v-bind:startOSC="start" />
+                <div
+                    v-bind:style="{
+                        width: '100%',
+                        height: '100%',
+                    }"
+                    v-for="(blackKey, i) in blackKeys"
+                    v-bind:key="i"
+                >
+                    <Key v-bind:uniqueKey="blackKey" v-bind:startOSC="start" />
+                </div>
             </div>
             <div class="lowerKeyboard">
-                <Key v-for="(whiteKey, i) in whiteKeys" v-bind:uniqueKey="whiteKey" v-bind:key="i" v-bind:startOSC="start" />
+                <div
+                    v-bind:style="{
+                        width: '100%',
+                        height: '100%',
+                    }"
+                    v-for="(whiteKey, i) in whiteKeys"
+                    v-bind:key="i"
+                >
+                    <Key v-bind:uniqueKey="whiteKey" v-bind:startOSC="start" />
+                </div>
             </div>
         </div>
     </div>
@@ -91,17 +109,15 @@ export default {
 }
 
 .keyboard {
-    width: 900px;
-    height: 500px;
-    border: 2px solid black;
+    width: 90%;
+    height: 50%;
+    /* border: 2px solid black; */
     padding: 5px;
     overflow: auto;
 }
 
 .upperKeyboard {
     width: 100%;
-    border: 2px solid red;
-    /* max-height: 25%; */
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
@@ -110,9 +126,6 @@ export default {
 .lowerKeyboard {
     width: 100%;
     height: 75%;
-    border: 2px solid green;
     display: flex;
-        justify-content: space-between;
-
 }
 </style>
