@@ -31,6 +31,9 @@ export default {
         startOSC: {
             type: Boolean,
         },
+        volume: {
+            type: Number,
+        }
     },
     methods: {
         debug() {
@@ -40,10 +43,9 @@ export default {
             this.pressed = true;
             this.osc.type = "sine";
             this.osc.frequency.value = this.uniqueKey.frequency;
-            this.gainNode.gain.value = 0.1;
+            this.gainNode.gain.value = this.volume/100;
             this.osc.connect(this.gainNode);
             this.gainNode.connect(audioCtx.destination);
-            console.log(this.uniqueKey.note)
         },
         keyUp() {
             this.pressed = false;

@@ -18,7 +18,10 @@
         >
             click to start
         </div>
-        <div class="keyboard">            
+        <div>
+            <VolumeKnob @volume="getVolume" v-bind:volume="volume" />
+        </div>
+        <div class="keyboard">
             <div class="upperKeyboard">
                 <div
                     v-bind:style="{
@@ -28,7 +31,7 @@
                     v-for="(blackKey, i) in blackKeys"
                     v-bind:key="i"
                 >
-                    <Key v-bind:uniqueKey="blackKey" v-bind:startOSC="start" />
+                    <Key v-bind:uniqueKey="blackKey" v-bind:startOSC="start" v-bind:volume="volume" />
                 </div>
             </div>
             <div class="lowerKeyboard">
@@ -40,7 +43,7 @@
                     v-for="(whiteKey, i) in whiteKeys"
                     v-bind:key="i"
                 >
-                    <Key v-bind:uniqueKey="whiteKey" v-bind:startOSC="start" />
+                    <Key v-bind:uniqueKey="whiteKey" v-bind:startOSC="start" v-bind:volume="volume" />
                 </div>
             </div>
         </div>
@@ -49,6 +52,7 @@
 
 <script>
 import Key from "./Key";
+import VolumeKnob from "./VolumeKnob";
 
 export default {
     name: "frame",
@@ -57,15 +61,20 @@ export default {
     },
     components: {
         Key,
+        VolumeKnob,
     },
     methods: {
         startOscs() {
             return (this.start = true);
         },
+        getVolume(value) {
+            this.volume = value;
+        },
     },
     data() {
         return {
             start: false,
+            volume: 10,
             keysList: [
                 { note: "F", keyboard: "f", color: "white", frequency: 349.23 },
                 { note: "G", keyboard: "g", color: "white", frequency: 392 },
