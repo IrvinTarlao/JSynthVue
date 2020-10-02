@@ -1,6 +1,6 @@
 <template>
     <div class="slidecontainer">
-        <div :style="{display: 'flex', justifyContent: 'space-between', color: 'white', fontSize: '0.5em'}">
+        <div :style="{ display: 'flex', justifyContent: 'space-between', color: 'white', fontSize: '0.5em' }">
             <div>sine</div>
             <div>square</div>
             <div>saw</div>
@@ -27,7 +27,27 @@ export default {
         position: {
             immediate: true,
             handler(value) {
-                this.$emit("waveType", parseInt(value));
+                let type;
+                switch (parseInt(value)) {
+                    case 0:
+                        type = "sine";
+                        break;
+                    case 1:
+                        type = "sine";
+                        break;
+                    case 34:
+                        type = "square";
+                        break;
+                    case 67:
+                        type = "sawtooth";
+                        break;
+                    case 100:
+                        type = "triangle";
+                        break;
+                    default:
+                        break;
+                }
+                this.$emit("waveType", type);
             },
         },
     },

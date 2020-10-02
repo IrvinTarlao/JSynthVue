@@ -22,6 +22,7 @@ export default {
             pressed: false,
             osc: audioCtx.createOscillator(),
             gainNode: audioCtx.createGain(),
+            frequencyToPlay: null,
         };
     },
     props: {
@@ -32,6 +33,9 @@ export default {
             type: Boolean,
         },
         volume: {
+            type: Number,
+        },
+        octave: {
             type: Number,
         },
         waveType: {
@@ -45,7 +49,7 @@ export default {
         keyDown() {
             this.pressed = true;
             this.osc.type = this.waveType;
-            this.osc.frequency.value = this.uniqueKey.frequency;
+            this.osc.frequency.value = this.frequencyToPlay;
             this.gainNode.gain.value = this.volume/100;
             this.osc.connect(this.gainNode);
             this.gainNode.connect(audioCtx.destination);
@@ -74,6 +78,45 @@ export default {
             immediate: true,
             handler(value) {
                 if (value === true) this.osc.start();
+            },
+        },
+        octave: {
+            immediate: true,
+            handler() {
+                let freq;
+                switch (this.octave) {
+                    case 8:
+                        freq = this.uniqueKey.frequency*16;
+                        break;
+                    case 7:
+                        freq = this.uniqueKey.frequency*8;
+                        break;
+                    case 6:
+                        freq = this.uniqueKey.frequency*4;
+                        break;
+                    case 5:
+                        freq = this.uniqueKey.frequency*2;
+                        break;
+                    case 4:
+                        freq = this.uniqueKey.frequency;
+                        break;
+                    case 3:
+                        freq = this.uniqueKey.frequency/2;
+                        break;
+                    case 2:
+                        freq = this.uniqueKey.frequency/4;
+                        break;
+                    case 1:
+                        freq = this.uniqueKey.frequency/8;
+                        break;
+                    case 0:
+                        freq = this.uniqueKey.frequency/16;
+                        break;
+                
+                    default:
+                        break;
+                }
+                this.frequencyToPlay = freq;
             },
         },
     },
