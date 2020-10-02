@@ -33,6 +33,9 @@ export default {
         },
         volume: {
             type: Number,
+        },
+        waveType: {
+            type: String,
         }
     },
     methods: {
@@ -41,7 +44,7 @@ export default {
         },
         keyDown() {
             this.pressed = true;
-            this.osc.type = "sine";
+            this.osc.type = this.waveType;
             this.osc.frequency.value = this.uniqueKey.frequency;
             this.gainNode.gain.value = this.volume/100;
             this.osc.connect(this.gainNode);

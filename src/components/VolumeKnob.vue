@@ -1,5 +1,5 @@
 <template>
-    <div class="hello">
+
         <div class="box">
             <round-slider
                 v-model="sliderValue"
@@ -19,7 +19,7 @@
             />
             <div :style="{ position: 'absolute', color: 'grey', width: '100%', textAlign: 'center' }">{{ sliderValue / 10 }}</div>
         </div>
-    </div>
+
 </template>
 
 <script>
@@ -60,5 +60,6 @@ export default {
     display: flex;
     align-items: center;
     position: relative;
+    width: 60px;
 }
 </style>

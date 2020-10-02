@@ -18,8 +18,13 @@
         >
             click to start
         </div>
-        <div>
-            <VolumeKnob @volume="getVolume" v-bind:volume="volume" />
+        <div :style="{border:'2px solid red'}">
+            <div :style="{border:'2px solid blue'}">
+                <VolumeKnob @volume="getVolume" v-bind:volume="volume" />
+            </div>
+            <div>
+                <WaveType @waveType="getWaveType" v-bind:waveType="waveType" />
+            </div>
         </div>
         <div class="keyboard">
             <div class="upperKeyboard">
@@ -31,7 +36,7 @@
                     v-for="(blackKey, i) in blackKeys"
                     v-bind:key="i"
                 >
-                    <Key v-bind:uniqueKey="blackKey" v-bind:startOSC="start" v-bind:volume="volume" />
+                    <Key v-bind:uniqueKey="blackKey" v-bind:startOSC="start" v-bind:volume="volume" v-bind:waveType="waveType"/>
                 </div>
             </div>
             <div class="lowerKeyboard">
@@ -43,7 +48,7 @@
                     v-for="(whiteKey, i) in whiteKeys"
                     v-bind:key="i"
                 >
-                    <Key v-bind:uniqueKey="whiteKey" v-bind:startOSC="start" v-bind:volume="volume" />
+                    <Key v-bind:uniqueKey="whiteKey" v-bind:startOSC="start" v-bind:volume="volume" v-bind:waveType="waveType"/>
                 </div>
             </div>
         </div>
@@ -53,6 +58,7 @@
 <script>
 import Key from "./Key";
 import VolumeKnob from "./VolumeKnob";
+import WaveType from "./WaveType";
 
 export default {
     name: "frame",
@@ -62,6 +68,7 @@ export default {
     components: {
         Key,
         VolumeKnob,
+        WaveType
     },
     methods: {
         startOscs() {
@@ -70,11 +77,36 @@ export default {
         getVolume(value) {
             this.volume = value;
         },
+        getWaveType(value) {
+            let type;
+            switch (value) {
+                case 0:
+                    type = 'sine';
+                    break;
+                case 1:
+                    type = 'sine';
+                    break;
+                case 34:
+                    type = 'square';
+                    break;
+                case 67:
+                    type = 'sawtooth';
+                    break;
+                case 100:
+                    type = 'triangle';
+                    break;
+            
+                default:
+                    break;
+            }
+            this.waveType = type;
+        },
     },
     data() {
         return {
             start: false,
             volume: 10,
+            waveType: "sine",
             keysList: [
                 { note: "F", keyboard: "f", color: "white", frequency: 349.23 },
                 { note: "G", keyboard: "g", color: "white", frequency: 392 },
