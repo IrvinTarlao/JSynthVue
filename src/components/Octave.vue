@@ -1,7 +1,7 @@
 <template>
 <div :style="{color: 'white'}">
   <div>octave</div>
-  <input type="number" v-model="octave">
+  <input type="number" v-model="octave" min="0" max="8">
 </div>
 </template>
 
