@@ -2,7 +2,7 @@
     <div class="frame">
         <div
             v-if="!start"
-            @click="() => startOscs()"
+            @click="startOscs"
             v-bind:style="{
                 position: 'absolute',
                 width: '90%',

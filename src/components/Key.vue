@@ -1,5 +1,5 @@
 <template>
-    <div :style="{ height: '100%', margin: '1px'}">
+    <div :style="{ height: '100%', margin: '1px' }">
         <!-- width: uniqueKey.note === 'G#' ? '50%' : '100%'  -->
         <div :class="getOuterBlackClass" v-if="uniqueKey.color === 'black'" v-bind:style="{ justifyContent: uniqueKey.align, width: '100%' }">
             <div :class="getInnerBlackClass">
@@ -8,6 +8,7 @@
         </div>
         <div :class="getOuterWhiteClass" v-if="uniqueKey.color === 'white'">
             <div :class="getInnerWhiteClass" v-bind:style="{ textAlign: 'center', padding: '20px' }">{{ uniqueKey.note }}</div>
+            <div>{{pressed}}</div>
         </div>
     </div>
 </template>
@@ -19,7 +20,7 @@ export default {
     name: "key",
     data() {
         return {
-            pressed: false,
+            // pressed: false,
             osc: audioCtx.createOscillator(),
             gainNode: audioCtx.createGain(),
             frequencyToPlay: null,
@@ -40,24 +41,27 @@ export default {
         },
         waveType: {
             type: String,
+        },
+        pressed: {
+            type: Boolean,
         }
     },
     methods: {
         debug() {
             console.log(this.uniqueKey.keyboard);
         },
-        keyDown() {
-            this.pressed = true;
-            this.osc.type = this.waveType;
-            this.osc.frequency.value = this.frequencyToPlay;
-            this.gainNode.gain.value = this.volume/100;
-            this.osc.connect(this.gainNode);
-            this.gainNode.connect(audioCtx.destination);
-        },
-        keyUp() {
-            this.pressed = false;
-            this.osc.disconnect();
-        },
+        // keyDown() {
+        //     this.pressed = true;
+        //     this.osc.type = this.waveType;
+        //     this.osc.frequency.value = this.frequencyToPlay;
+        //     this.gainNode.gain.value = this.volume / 100;
+        //     this.osc.connect(this.gainNode);
+        //     this.gainNode.connect(audioCtx.destination);
+        // },
+        // keyUp() {
+        //     this.pressed = false;
+        //     this.osc.disconnect();
+        // },
     },
     computed: {
         getOuterWhiteClass() {
@@ -80,39 +84,37 @@ export default {
                 if (value === true) this.osc.start();
             },
         },
+        pressed: {
+            immediate: true,
+            handler(value) {
+                console.log(value);
+            },
+        },
         octave: {
             immediate: true,
             handler() {
-
-                let baseOct = 4;
-                let octDiff = this.octave - baseOct;
-                let factor = 1;
-
-                if (octDiff === 1 || octDiff === -1) factor = 2
-                if (octDiff === 2 || octDiff === -2) factor = 4
-                if (octDiff === 3 || octDiff === -3) factor = 8
-                if (octDiff === 4 || octDiff === -4) factor = 16
-
+                const baseOct = 4;
+                const octDiff = this.octave - baseOct;
+                const factor = Math.pow(2, Math.abs(octDiff));
                 if (this.octave === baseOct) this.frequencyToPlay = this.uniqueKey.frequency;
-                else if (this.octave > baseOct) this.frequencyToPlay = this.uniqueKey.frequency*factor;
-                else if (this.octave < baseOct) this.frequencyToPlay = this.uniqueKey.frequency/factor;
-
+                else if (this.octave > baseOct) this.frequencyToPlay = this.uniqueKey.frequency * factor;
+                else if (this.octave < baseOct) this.frequencyToPlay = this.uniqueKey.frequency / factor;
             },
         },
     },
-    mounted() {
-        window.addEventListener("keydown", (ev) => {
-            if (ev.repeat) return;
-            if (ev.key === this.uniqueKey.keyboard) this.keyDown();
-        });
-        window.addEventListener("keyup", (ev) => {
-            if (ev.key === this.uniqueKey.keyboard && this.pressed) this.keyUp();
-        });
-    },
-    destroyed() {
-        window.removeEventListener("keydown", this.keyDown());
-        window.removeEventListener("keyup", this.keyUp());
-    },
+    // mounted() {
+    //     window.addEventListener("keydown", (ev) => {
+    //         if (ev.repeat) return;
+    //         if (ev.key === this.uniqueKey.keyboard) this.keyDown();
+    //     });
+    //     window.addEventListener("keyup", (ev) => {
+    //         if (ev.key === this.uniqueKey.keyboard && this.pressed) this.keyUp();
+    //     });
+    // },
+    // destroyed() {
+    //     window.removeEventListener("keydown", this.keyDown);
+    //     window.removeEventListener("keyup", this.keyUp);
+    // },
 };
 </script>
 

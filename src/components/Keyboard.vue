@@ -9,7 +9,7 @@
                 v-for="(blackKey, i) in blackKeys"
                 v-bind:key="i"
             >
-                <Key v-bind:uniqueKey="blackKey" v-bind:startOSC="startOSC" v-bind:volume="volume" v-bind:waveType="waveType" v-bind:octave="octave"/>
+                <Key v-bind:uniqueKey="blackKey" v-bind:startOSC="startOSC" v-bind:volume="volume" v-bind:waveType="waveType" v-bind:octave="octave" v-bind:pressed="sendPressed(blackKey.keyboard)"/>
             </div>
         </div>
         <div class="lowerKeyboard">
@@ -48,6 +48,7 @@ export default {
                 { note: "C#", align: "flex-end", keyboard: "o", color: "black", frequency: 554.37 },
                 { note: "D#", align: "flex-start", keyboard: "p", color: "black", frequency: 622.25 },
             ],
+            pressedKeys: []
         }
     },
     props: {
@@ -78,6 +79,37 @@ export default {
                 return k.color === "black";
             });
         },
+    },
+    methods: {
+        keyDown(key) {
+            console.log(key)
+            this.pressedKeys.push(key);
+        },
+        keyUp(key) {
+            this.pressedKeys = this.pressedKeys.filter(pressedKey => pressedKey != key)
+        },
+        sendPressed(key) {
+            if (this.pressedKeys.includes(key)) return true
+            else return false;
+        }
+    },
+    watch: {
+        pressedKeys() {
+            console.log(this.pressedKeys)
+        }
+    },
+    mounted() {
+        window.addEventListener("keydown", (ev) => {
+            if (ev.repeat) return;
+            this.keyDown(ev.key);
+        });
+        window.addEventListener("keyup", (ev) => {
+            this.keyUp(ev.key);
+        });
+    },
+    destroyed() {
+        window.removeEventListener("keydown", this.keyDown);
+        window.removeEventListener("keyup", this.keyUp);
     },
 };
 </script>
