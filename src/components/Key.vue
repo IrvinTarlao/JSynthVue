@@ -83,40 +83,20 @@ export default {
         octave: {
             immediate: true,
             handler() {
-                let freq;
-                switch (this.octave) {
-                    case 8:
-                        freq = this.uniqueKey.frequency*16;
-                        break;
-                    case 7:
-                        freq = this.uniqueKey.frequency*8;
-                        break;
-                    case 6:
-                        freq = this.uniqueKey.frequency*4;
-                        break;
-                    case 5:
-                        freq = this.uniqueKey.frequency*2;
-                        break;
-                    case 4:
-                        freq = this.uniqueKey.frequency;
-                        break;
-                    case 3:
-                        freq = this.uniqueKey.frequency/2;
-                        break;
-                    case 2:
-                        freq = this.uniqueKey.frequency/4;
-                        break;
-                    case 1:
-                        freq = this.uniqueKey.frequency/8;
-                        break;
-                    case 0:
-                        freq = this.uniqueKey.frequency/16;
-                        break;
-                
-                    default:
-                        break;
-                }
-                this.frequencyToPlay = freq;
+
+                let baseOct = 4;
+                let octDiff = this.octave - baseOct;
+                let factor = 1;
+
+                if (octDiff === 1 || octDiff === -1) factor = 2
+                if (octDiff === 2 || octDiff === -2) factor = 4
+                if (octDiff === 3 || octDiff === -3) factor = 8
+                if (octDiff === 4 || octDiff === -4) factor = 16
+
+                if (this.octave === baseOct) this.frequencyToPlay = this.uniqueKey.frequency;
+                else if (this.octave > baseOct) this.frequencyToPlay = this.uniqueKey.frequency*factor;
+                else if (this.octave < baseOct) this.frequencyToPlay = this.uniqueKey.frequency/factor;
+
             },
         },
     },
