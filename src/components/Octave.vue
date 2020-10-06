@@ -6,11 +6,13 @@
 </template>
 
 <script>
+import {BASE_OCTAVE} from './const';
+
 export default {
     name: "octave",
     data() {
         return {
-            octave: 4
+            octave: BASE_OCTAVE
         };
     },
     watch: {

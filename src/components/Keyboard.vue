@@ -21,7 +21,7 @@
                 v-for="(whiteKey, i) in whiteKeys"
                 v-bind:key="i"
             >
-                <Key v-bind:uniqueKey="whiteKey" v-bind:startOSC="startOSC" v-bind:volume="volume" v-bind:waveType="waveType" v-bind:octave="octave"/>
+                <Key v-bind:uniqueKey="whiteKey" v-bind:startOSC="startOSC" v-bind:volume="volume" v-bind:waveType="waveType" v-bind:octave="octave" v-bind:pressed="sendPressed(whiteKey.keyboard)"/>
             </div>
         </div>
     </div>
@@ -82,20 +82,14 @@ export default {
     },
     methods: {
         keyDown(key) {
-            console.log(key)
             this.pressedKeys.push(key);
         },
         keyUp(key) {
-            this.pressedKeys = this.pressedKeys.filter(pressedKey => pressedKey != key)
+            this.pressedKeys = this.pressedKeys.filter(pressedKey => pressedKey !== key)
         },
         sendPressed(key) {
             if (this.pressedKeys.includes(key)) return true
             else return false;
-        }
-    },
-    watch: {
-        pressedKeys() {
-            console.log(this.pressedKeys)
         }
     },
     mounted() {
@@ -118,7 +112,6 @@ export default {
 .keyboard {
     width: 90%;
     height: 50%;
-    /* border: 2px solid black; */
     padding: 5px;
     overflow: auto;
 }

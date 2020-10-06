@@ -1,0 +1,1 @@
+export const BASE_OCTAVE = 4;
