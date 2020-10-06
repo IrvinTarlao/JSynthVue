@@ -2,10 +2,7 @@
     <div class="keyboard">
         <div class="upperKeyboard">
             <div
-                v-bind:style="{
-                    width: '100%',
-                    height: '100%',
-                }"
+                class="keysContainer"
                 v-for="(blackKey, i) in blackKeys"
                 v-bind:key="i"
             >
@@ -14,10 +11,7 @@
         </div>
         <div class="lowerKeyboard">
             <div
-                v-bind:style="{
-                    width: '100%',
-                    height: '100%',
-                }"
+                class="keysContainer"
                 v-for="(whiteKey, i) in whiteKeys"
                 v-bind:key="i"
             >
@@ -70,14 +64,10 @@ export default {
     },
     computed: {
         whiteKeys: function() {
-            return this.keysList.filter(function(k) {
-                return k.color === "white";
-            });
+            return this.keysList.filter((k) => k.color === "white");
         },
         blackKeys: function() {
-            return this.keysList.filter(function(k) {
-                return k.color === "black";
-            });
+            return this.keysList.filter((k) => k.color === "black");
         },
     },
     methods: {
@@ -88,8 +78,7 @@ export default {
             this.pressedKeys = this.pressedKeys.filter(pressedKey => pressedKey !== key)
         },
         sendPressed(key) {
-            if (this.pressedKeys.includes(key)) return true
-            else return false;
+            return this.pressedKeys.includes(key) ? true : false;
         }
     },
     mounted() {
@@ -125,7 +114,13 @@ export default {
 
 .lowerKeyboard {
     width: 100%;
-    height: 75%;
+    height: 70%;
     display: flex;
 }
+
+.keysContainer {
+    width: 100%;
+    height: 100%;
+}
+
 </style>

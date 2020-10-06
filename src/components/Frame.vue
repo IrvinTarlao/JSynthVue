@@ -1,35 +1,22 @@
 <template>
     <div class="frame">
-        <div
-            v-if="!start"
-            @click="startOscs"
-            v-bind:style="{
-                position: 'absolute',
-                width: '90%',
-                height: '50%',
-                fontSize: '3em',
-                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                cursor: 'pointer',
-                color: 'white',
-            }"
-        >
+        <div v-if="!start" @click="startOscs" class="clickStart">
             click to start
         </div>
-        <div :style="{border:'2px solid red'}">
-            <div :style="{border:'2px solid blue'}">
+        <div class="filters">
+            <div>
+                <div>volume</div>
                 <VolumeKnob @volume="getVolume" v-bind:volume="volume" />
             </div>
             <div>
+                <div>wave type</div>
                 <WaveType @waveType="getWaveType" v-bind:waveType="waveType" />
             </div>
             <div>
                 <Octave @octave="getOctave" v-bind:octave="octave" />
             </div>
         </div>
-        <Keyboard v-bind:volume="volume" v-bind:waveType="waveType" v-bind:startOSC="start" v-bind:octave="octave"/>
+        <Keyboard v-bind:volume="volume" v-bind:waveType="waveType" v-bind:startOSC="start" v-bind:octave="octave" />
     </div>
 </template>
 
@@ -45,7 +32,7 @@ export default {
         Keyboard,
         VolumeKnob,
         WaveType,
-        Octave
+        Octave,
     },
     methods: {
         startOscs() {
@@ -66,17 +53,9 @@ export default {
             start: false,
             volume: 10,
             waveType: "sine",
-            octave: null
+            octave: null,
         };
     },
-    // watch: {
-    //     octave: {
-    //         immediate: true,
-    //         handler(value) {
-    //             console.log(value)
-    //         },
-    //     },
-    // },
 };
 </script>
 
@@ -87,6 +66,28 @@ export default {
     width: 100vw;
     height: 100vh;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.clickStart {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    font-size: 3em;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    z-index: 9;
+}
+
+.filters {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
